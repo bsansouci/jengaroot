@@ -4,7 +4,7 @@
                    (extra_deps (bigarray))))
   (c_names (blit_stubs float_stubs))
   (preprocessor_deps (int_codes.mlh config.h))
-  (preprocess (((command "${CPP} -undef") (List (size write read type_class)))))))
+  (preprocess (((command "${CPP}") (List (size write read type_class)))))))
 
 (rule
  ((targets (config.h))

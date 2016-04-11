@@ -388,6 +388,7 @@ let common_cflags = [
   "-Wextra";
   "-Wunused";
   "-Werror";
+  "-Wno-invalid-pp-token";
   "-Wno-long-long";
   "-DCAML_NAME_SPACE";
   "-O2";
@@ -462,8 +463,8 @@ let table_to_lookup ~table =
 (* Expand some $-vars within action strings of rules defined in jbuild files *)
 let root_var_table = [
   "-verbose"       , ""; (*"-verbose";*)
-  "CPP"            , "cpp";
-  "PA_CPP"         , concat_quoted ["cpp"; "-undef"; "-traditional"; "-Werror";];
+  "CPP"            , "/Users/benjamin/Downloads/jengaroot/bla.sh";
+  "PA_CPP"         , concat_quoted ["cpp"; "-undef"; "-traditional"; "-Werror"; "-Wno-invalid-pp-token";];
   "CC"             , concat_quoted
                        (C.Flavor.prog `C :: Compiler_selection.arch_cflags);
   "CXX"            , concat_quoted

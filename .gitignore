@@ -1,12 +1,18 @@
-syntax: glob
-
-*.{a,o,exe}
-*.cm{i,t,ti,x,xa}
+*.a
+*.o
+*.exe
+*.cmi
+*.cmt
+*.cmti
+*.cmx
+*.cmxa
 *.deps
 *.libdeps
 *.merlin
-*.ml{,i}-gen
-*.ml{,i}.d
+*.ml-gen
+*.mli-gen
+*.ml.d
+*.mli.d
 *.modules
 *.objdeps
 *.pack-order
