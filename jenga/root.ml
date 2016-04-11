@@ -463,7 +463,7 @@ let table_to_lookup ~table =
 (* Expand some $-vars within action strings of rules defined in jbuild files *)
 let root_var_table = [
   "-verbose"       , ""; (*"-verbose";*)
-  "CPP"            , "/Users/benjamin/Downloads/jengaroot/bla.sh";
+  "CPP"            , "/Users/benjamin/Desktop/jengaroot/hacky-fix-for-mac.sh";
   "PA_CPP"         , concat_quoted ["cpp"; "-undef"; "-traditional"; "-Werror"; "-Wno-invalid-pp-token";];
   "CC"             , concat_quoted
                        (C.Flavor.prog `C :: Compiler_selection.arch_cflags);
