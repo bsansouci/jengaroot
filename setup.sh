@@ -19,7 +19,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   (cd packages/ppx_tools-ppx_tools_0.99.3
   mv genlifter.ml ppx_metaquot.ml syntax
   mv ast_convenience.ml{i,} ast_mapper_class.ml{i,} lib
-  find syntax/*.ml | xargs sed -i 's/Ast_convenience/Ppx_tools.Ast_convenience/'
+  find syntax/*.ml | xargs sed -i 's/ Ast_convenience/ Ppx_tools.Ast_convenience/'
   )
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   (cd packages/ppx_tools-ppx_tools_0.99.3
