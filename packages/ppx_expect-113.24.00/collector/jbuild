@@ -1,0 +1,18 @@
+; Expect-tests are translated into calls into this library. It has minimal dependencies and does just enough work
+; to give the expect_test_evaluator library all the necessary input.
+
+(library (
+  (name expect_test_collector)
+  (public_release ((status (build_and_install_as ppx_expect.collector))
+                   (desc "Runtime library for ppx_expect")))
+  (libraries (sexplib))
+  (wrapped false)
+  (preprocess (((pps (ppx_inline_test
+                      ppx_compare
+                      ppx_variants_conv
+                      ppx_sexp_conv
+                      ppx_fields_conv
+                      ppx_sexp_value
+                      ppx_custom_printf
+                     )) All)))
+))

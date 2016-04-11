@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 4f0dc15639c069ec16dd5a9b7175ba9a)
+version = "113.24.00"
+description = "Feature-full driver for OCaml AST transformers"
+requires = "ppx_core ppx_optcomp"
+archive(byte) = "ppx_driver.cma"
+archive(byte, plugin) = "ppx_driver.cma"
+archive(native) = "ppx_driver.cmxa"
+archive(native, plugin) = "ppx_driver.cmxs"
+exists_if = "ppx_driver.cma"
+# OASIS_STOP
+

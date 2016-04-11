@@ -1,0 +1,13 @@
+# OASIS_START
+# DO NOT EDIT (digest: 21275518ecaf771329026d06153fefcb)
+version = "113.24.00"
+description = "Cram like framework for OCaml"
+requires =
+"expect_test_collector ppx_assert.runtime-lib ppx_inline_test.runtime-lib re sexplib variantslib"
+archive(byte) = "expect_test_evaluator_lib.cma"
+archive(byte, plugin) = "expect_test_evaluator_lib.cma"
+archive(native) = "expect_test_evaluator_lib.cmxa"
+archive(native, plugin) = "expect_test_evaluator_lib.cmxs"
+exists_if = "expect_test_evaluator_lib.cma"
+# OASIS_STOP
+

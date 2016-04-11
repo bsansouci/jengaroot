@@ -1,0 +1,8 @@
+(library
+ ((name ppx_here)
+  (public_release ((status (build_and_install_as ppx_here))
+                   (kind ppx_rewriter)))
+  (wrapped false)
+  (libraries (ppx_driver ppx_core ppx_here_expander))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((no_preprocessing All)))))

@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: faeecd5b78356e2d09650ba521e294f6)
+version = "113.24.00"
+description = "Standard library for ppx rewriters"
+requires = "compiler-libs.common"
+archive(byte) = "ppx_core.cma"
+archive(byte, plugin) = "ppx_core.cma"
+archive(native) = "ppx_core.cmxa"
+archive(native, plugin) = "ppx_core.cmxs"
+exists_if = "ppx_core.cma"
+# OASIS_STOP
+

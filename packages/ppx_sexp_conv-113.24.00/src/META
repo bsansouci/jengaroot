@@ -1,0 +1,13 @@
+# OASIS_START
+# DO NOT EDIT (digest: 685e56e8603bac5fd18c0fa0aefd57aa)
+version = "113.24.00"
+description =
+"Generation of S-expression conversion functions from type definitions"
+requires = "ppx_core ppx_sexp_conv_expander ppx_type_conv"
+archive(byte) = "ppx_sexp_conv.cma"
+archive(byte, plugin) = "ppx_sexp_conv.cma"
+archive(native) = "ppx_sexp_conv.cmxa"
+archive(native, plugin) = "ppx_sexp_conv.cmxs"
+exists_if = "ppx_sexp_conv.cma"
+# OASIS_STOP
+

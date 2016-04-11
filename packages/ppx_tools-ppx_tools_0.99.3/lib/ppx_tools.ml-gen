@@ -1,0 +1,8 @@
+module No_direct_access_to_ppx_tools = struct
+  module Ppx_tools = No_such_module
+  module Ppx_tools__Ast_convenience = No_such_module
+  module Ppx_tools__Ast_mapper_class = No_such_module
+end
+
+module Ast_convenience = Ppx_tools__Ast_convenience
+module Ast_mapper_class = Ppx_tools__Ast_mapper_class

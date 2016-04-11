@@ -1,0 +1,8 @@
+(library
+ ((name ppx_optcomp)
+  (public_release ((status (build_and_install_as ppx_optcomp))
+                   (kind ppx_library)))
+  (wrapped false)
+  (libraries (ppx_core))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((metaquot All)))))

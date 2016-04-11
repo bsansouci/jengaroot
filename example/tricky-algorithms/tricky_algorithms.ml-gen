@@ -1,0 +1,8 @@
+module No_direct_access_to_tricky_algorithms = struct
+  module Tricky_algorithms = No_such_module
+  module Tricky_algorithms__Fact = No_such_module
+  module Tricky_algorithms__Fibs = No_such_module
+end
+
+module Fact = Tricky_algorithms__Fact
+module Fibs = Tricky_algorithms__Fibs

@@ -1,0 +1,13 @@
+# OASIS_START
+# DO NOT EDIT (digest: 5e4fc4ad2f4ac30f54dfd0c7314c09e8)
+version = "113.24.00"
+description =
+"Generation of accessor and iteration functions for ocaml records"
+requires = "ppx_core ppx_tools.metaquot ppx_type_conv"
+archive(byte) = "ppx_fields_conv.cma"
+archive(byte, plugin) = "ppx_fields_conv.cma"
+archive(native) = "ppx_fields_conv.cmxa"
+archive(native, plugin) = "ppx_fields_conv.cmxs"
+exists_if = "ppx_fields_conv.cma"
+# OASIS_STOP
+

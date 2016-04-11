@@ -1,0 +1,14 @@
+# OASIS_START
+# DO NOT EDIT (digest: ebb1bb65d37cf804f419922db7aa6b2f)
+version = "113.24.00"
+description =
+"A ppx rewriter that simplifies building s-expressions from ocaml values"
+requires =
+"ppx_core ppx_driver ppx_here.expander ppx_sexp_conv.expander ppx_tools.metaquot"
+archive(byte) = "ppx_sexp_value.cma"
+archive(byte, plugin) = "ppx_sexp_value.cma"
+archive(native) = "ppx_sexp_value.cmxa"
+archive(native, plugin) = "ppx_sexp_value.cmxs"
+exists_if = "ppx_sexp_value.cma"
+# OASIS_STOP
+

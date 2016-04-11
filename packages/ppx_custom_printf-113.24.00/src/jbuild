@@ -1,0 +1,12 @@
+(library
+ ((name ppx_custom_printf)
+  (public_release ((status (build_and_install_as ppx_custom_printf))
+                   (kind ppx_rewriter)))
+  (wrapped false)
+  (libraries (ppx_core
+              ppx_driver
+              ppx_sexp_conv_expander
+              ppx_format_lifter
+              ))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((metaquot All)))))

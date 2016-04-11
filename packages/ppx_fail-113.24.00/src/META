@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: f5ad9be42b9c47ead557a1fb20bb1e80)
+version = "113.24.00"
+description = "Add location to calls to failwiths"
+requires = "ppx_core ppx_driver ppx_here.expander ppx_tools.metaquot"
+archive(byte) = "ppx_fail.cma"
+archive(byte, plugin) = "ppx_fail.cma"
+archive(native) = "ppx_fail.cmxa"
+archive(native, plugin) = "ppx_fail.cmxs"
+exists_if = "ppx_fail.cma"
+# OASIS_STOP
+

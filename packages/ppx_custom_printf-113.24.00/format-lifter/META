@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 00f145f45c9ea3b4919ba8e97dd098a1)
+version = "113.24.00"
+description =
+"Printf-style format-strings for user-defined string conversion"
+archive(byte) = "ppx_format_lifter.cma"
+archive(byte, plugin) = "ppx_format_lifter.cma"
+archive(native) = "ppx_format_lifter.cmxa"
+archive(native, plugin) = "ppx_format_lifter.cmxs"
+exists_if = "ppx_format_lifter.cma"
+# OASIS_STOP
+

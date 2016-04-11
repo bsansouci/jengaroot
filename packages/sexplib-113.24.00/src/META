@@ -1,0 +1,13 @@
+# OASIS_START
+# DO NOT EDIT (digest: ccbbee4ae1d1fb5133445e7fb95d66d8)
+version = "113.24.00"
+description =
+"Library for serializing OCaml values to and from S-expressions"
+requires = "bigarray"
+archive(byte) = "sexplib.cma"
+archive(byte, plugin) = "sexplib.cma"
+archive(native) = "sexplib.cmxa"
+archive(native, plugin) = "sexplib.cmxs"
+exists_if = "sexplib.cma"
+# OASIS_STOP
+

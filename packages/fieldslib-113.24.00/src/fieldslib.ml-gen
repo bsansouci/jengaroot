@@ -1,0 +1,6 @@
+module No_direct_access_to_fieldslib = struct
+  module Fieldslib = No_such_module
+  module Fieldslib__Field = No_such_module
+end
+
+module Field = Fieldslib__Field

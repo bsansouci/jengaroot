@@ -1,0 +1,3 @@
+(executables
+ ((names (display))
+  (libraries (tricky_algorithms))))

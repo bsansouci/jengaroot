@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: 07d102517f355b85cb5137d168370572)
+version = "113.24.00"
+description = "Syntax extension for writing in-line benchmarks in ocaml code"
+archive(byte) = "ppx_bench_lib.cma"
+archive(byte, plugin) = "ppx_bench_lib.cma"
+archive(native) = "ppx_bench_lib.cmxa"
+archive(native, plugin) = "ppx_bench_lib.cmxs"
+exists_if = "ppx_bench_lib.cma"
+# OASIS_STOP
+

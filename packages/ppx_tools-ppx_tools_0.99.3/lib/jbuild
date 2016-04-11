@@ -1,0 +1,6 @@
+no_utop
+
+(library
+ ((name ppx_tools)
+  (preprocess ((no_preprocessing All)))
+  (ocaml_includes (+compiler-libs))))

@@ -1,0 +1,6 @@
+(executables
+ ((names (rewriter))
+  (libraries ())
+  (extra_ocaml_includes (+compiler-libs))
+  (link_flags (ocamlcommon.cmxa))
+  (modules (:standard \ dumpast))))

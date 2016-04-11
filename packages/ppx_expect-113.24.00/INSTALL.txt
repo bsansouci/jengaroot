@@ -1,0 +1,50 @@
+(* OASIS_START *)
+(* DO NOT EDIT (digest: 217e599013be7652ade6cd7232ca286d) *)
+
+This is the INSTALL file for the ppx_expect distribution.
+
+This package uses OASIS to generate its build system. See section OASIS for
+full information.
+
+Dependencies
+============
+
+In order to compile this package, you will need:
+
+* ocaml (>= 4.02.3)
+* findlib (>= 1.3.2)
+* fieldslib for library expect_test_collector
+* ppx_inline_test for library expect_test_collector,
+  library expect_test_evaluator_lib, library ppx_expect
+* sexplib for library expect_test_collector,
+  library expect_test_evaluator_lib
+* variantslib for library expect_test_collector,
+  library expect_test_evaluator_lib
+* ppx_assert for library expect_test_evaluator_lib
+* re for library expect_test_evaluator_lib
+* ppx_core for library ppx_expect
+* ppx_driver for library ppx_expect, executable ppx
+* ppx_tools for library ppx_expect
+
+Installing
+==========
+
+1. Uncompress the source archive and go to the root of the package
+2. Run 'ocaml setup.ml -configure'
+3. Run 'ocaml setup.ml -build'
+4. Run 'ocaml setup.ml -install'
+
+Uninstalling
+============
+
+1. Go to the root of the package
+2. Run 'ocaml setup.ml -uninstall'
+
+OASIS
+=====
+
+OASIS is a program that generates a setup.ml file using a simple '_oasis'
+configuration file. The generated setup only depends on the standard OCaml
+installation: no additional library is required.
+
+(* OASIS_STOP *)

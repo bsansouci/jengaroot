@@ -1,0 +1,36 @@
+module No_direct_access_to_sexplib = struct
+  module Sexplib = No_such_module
+  module Sexplib__Conv = No_such_module
+  module Sexplib__Conv_error = No_such_module
+  module Sexplib__Exn_magic = No_such_module
+  module Sexplib__Lexer = No_such_module
+  module Sexplib__Macro = No_such_module
+  module Sexplib__Parser = No_such_module
+  module Sexplib__Parser_with_layout = No_such_module
+  module Sexplib__Path = No_such_module
+  module Sexplib__Pre_sexp = No_such_module
+  module Sexplib__Sexp = No_such_module
+  module Sexplib__Sexp_intf = No_such_module
+  module Sexplib__Sexp_with_layout = No_such_module
+  module Sexplib__Src_pos = No_such_module
+  module Sexplib__Std = No_such_module
+  module Sexplib__Type = No_such_module
+  module Sexplib__Type_with_layout = No_such_module
+end
+
+module Conv = Sexplib__Conv
+module Conv_error = Sexplib__Conv_error
+module Exn_magic = Sexplib__Exn_magic
+module Lexer = Sexplib__Lexer
+module Macro = Sexplib__Macro
+module Parser = Sexplib__Parser
+module Parser_with_layout = Sexplib__Parser_with_layout
+module Path = Sexplib__Path
+module Pre_sexp = Sexplib__Pre_sexp
+module Sexp = Sexplib__Sexp
+module Sexp_intf = Sexplib__Sexp_intf
+module Sexp_with_layout = Sexplib__Sexp_with_layout
+module Src_pos = Sexplib__Src_pos
+module Std = Sexplib__Std
+module Type = Sexplib__Type
+module Type_with_layout = Sexplib__Type_with_layout

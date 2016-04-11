@@ -1,0 +1,8 @@
+(executables
+ ((names (gen gen_ast_pattern gen_ast_builder))
+  (public_release ((build (gen gen_ast_pattern gen_ast_builder))
+                   (extra_deps (compiler-libs.bytecomp))))
+  (libraries ())
+  (extra_ocaml_includes (+compiler-libs))
+  (link_flags (ocamlcommon.cmxa ocamlbytecomp.cmxa))
+  (preprocess ((metaquot All)))))

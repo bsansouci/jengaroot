@@ -1,0 +1,15 @@
+*.annot
+*.cmo
+*.cma
+*.cmi
+*.a
+*.o
+*.cmx
+*.cmxs
+*.cmxa
+*.exe
+dumpast
+genlifter
+ppx_metaquot
+rewriter
+ast_lifter.ml

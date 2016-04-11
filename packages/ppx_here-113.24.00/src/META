@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 7396c369859f1487025d2e01c9adcbe0)
+version = "113.24.00"
+description = "Expands [%here] into its location"
+requires = "ppx_core ppx_driver ppx_here_expander"
+archive(byte) = "ppx_here.cma"
+archive(byte, plugin) = "ppx_here.cma"
+archive(native) = "ppx_here.cmxa"
+archive(native, plugin) = "ppx_here.cmxs"
+exists_if = "ppx_here.cma"
+# OASIS_STOP
+

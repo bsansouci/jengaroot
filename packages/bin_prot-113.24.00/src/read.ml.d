@@ -1,0 +1,1 @@
+common nat0 write

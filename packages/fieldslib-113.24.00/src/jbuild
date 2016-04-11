@@ -1,0 +1,4 @@
+(library
+ ((name fieldslib)
+  (public_release ((status (build_and_install_as fieldslib))))
+  (preprocess (((pps ()) All)))))

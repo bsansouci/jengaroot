@@ -1,0 +1,8 @@
+(library
+ ((name ppx_let)
+  (public_release ((status (build_and_install_as ppx_let))
+                   (kind ppx_rewriter)))
+  (wrapped false)
+  (libraries (ppx_core ppx_driver))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((no_preprocessing All)))))

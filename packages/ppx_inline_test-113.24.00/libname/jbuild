@@ -1,0 +1,7 @@
+(library
+ ((name ppx_inline_test_libname)
+  (public_release ((status (build_and_install_as ppx_inline_test.libname))
+                   (kind ppx_library)))
+  (wrapped false)
+  (libraries (ppx_driver))
+  (preprocess ((no_preprocessing All)))))

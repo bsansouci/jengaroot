@@ -1,0 +1,9 @@
+(library
+ ((name ocaml_re)
+  (public_release (external
+                   ((package re)
+                    (wrapped false))))
+  (libraries ())
+  (flags (:standard))
+  (extra_disabled_warnings (9 27 32 34 37 39))
+  (preprocess (((pps ()) All)))))

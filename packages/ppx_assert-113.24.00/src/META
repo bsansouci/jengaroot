@@ -1,0 +1,14 @@
+# OASIS_START
+# DO NOT EDIT (digest: 562cee2b374938227969c0287cc50cd3)
+version = "113.24.00"
+description =
+"Assert-like extension nodes that raise useful errors on failure"
+requires =
+"ppx_compare.expander ppx_core ppx_driver ppx_here.expander ppx_sexp_conv.expander ppx_tools.metaquot"
+archive(byte) = "ppx_assert.cma"
+archive(byte, plugin) = "ppx_assert.cma"
+archive(native) = "ppx_assert.cmxa"
+archive(native, plugin) = "ppx_assert.cmxs"
+exists_if = "ppx_assert.cma"
+# OASIS_STOP
+

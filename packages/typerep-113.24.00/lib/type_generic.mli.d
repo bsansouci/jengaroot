@@ -1,0 +1,1 @@
+std_internal type_generic_intf typename variant_and_record_intf

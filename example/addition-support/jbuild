@@ -1,0 +1,3 @@
+(library
+ ((name decrement)
+  (wrapped false)))

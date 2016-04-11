@@ -1,0 +1,8 @@
+(library
+ ((name ppx_compare_expander)
+  (public_release ((status (build_and_install_as ppx_compare.expander))
+                   (kind ppx_library)))
+  (wrapped false)
+  (libraries (ppx_core))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((metaquot All)))))

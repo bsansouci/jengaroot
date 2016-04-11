@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 4ca98b73287991410129f059a70147b4)
+version = "113.24.00"
+description = "Generation of comparison functions from types"
+requires = "ppx_core ppx_tools.metaquot"
+archive(byte) = "ppx_compare_expander.cma"
+archive(byte, plugin) = "ppx_compare_expander.cma"
+archive(native) = "ppx_compare_expander.cmxa"
+archive(native, plugin) = "ppx_compare_expander.cmxs"
+exists_if = "ppx_compare_expander.cma"
+# OASIS_STOP
+

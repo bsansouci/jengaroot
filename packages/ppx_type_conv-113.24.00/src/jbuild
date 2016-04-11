@@ -1,0 +1,7 @@
+(library
+ ((name ppx_type_conv)
+  (public_release ((status (build_and_install_as ppx_type_conv))
+                   (kind ppx_library)))
+  (libraries (ppx_core ppx_driver))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((metaquot All)))))

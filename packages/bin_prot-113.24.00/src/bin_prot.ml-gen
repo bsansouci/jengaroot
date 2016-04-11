@@ -1,0 +1,24 @@
+module No_direct_access_to_bin_prot = struct
+  module Bin_prot = No_such_module
+  module Bin_prot__Binable = No_such_module
+  module Bin_prot__Blob = No_such_module
+  module Bin_prot__Common = No_such_module
+  module Bin_prot__Nat0 = No_such_module
+  module Bin_prot__Read = No_such_module
+  module Bin_prot__Size = No_such_module
+  module Bin_prot__Std = No_such_module
+  module Bin_prot__Type_class = No_such_module
+  module Bin_prot__Utils = No_such_module
+  module Bin_prot__Write = No_such_module
+end
+
+module Binable = Bin_prot__Binable
+module Blob = Bin_prot__Blob
+module Common = Bin_prot__Common
+module Nat0 = Bin_prot__Nat0
+module Read = Bin_prot__Read
+module Size = Bin_prot__Size
+module Std = Bin_prot__Std
+module Type_class = Bin_prot__Type_class
+module Utils = Bin_prot__Utils
+module Write = Bin_prot__Write

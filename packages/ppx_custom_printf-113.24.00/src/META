@@ -1,0 +1,14 @@
+# OASIS_START
+# DO NOT EDIT (digest: 172c486cb626bddf01f78d3ea2b41a9e)
+version = "113.24.00"
+description =
+"Printf-style format-strings for user-defined string conversion"
+requires =
+"ppx_core ppx_driver ppx_format_lifter ppx_sexp_conv.expander ppx_tools.metaquot"
+archive(byte) = "ppx_custom_printf.cma"
+archive(byte, plugin) = "ppx_custom_printf.cma"
+archive(native) = "ppx_custom_printf.cmxa"
+archive(native, plugin) = "ppx_custom_printf.cmxs"
+exists_if = "ppx_custom_printf.cma"
+# OASIS_STOP
+

@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 866df45a0d17630842fffe6748bad924)
+version = "113.24.00"
+description =
+"Syntax extension to define first class values representing record fields, to get and set record fields, iterate and fold over all fields of a record and create new record values"
+archive(byte) = "fieldslib.cma"
+archive(byte, plugin) = "fieldslib.cma"
+archive(native) = "fieldslib.cmxa"
+archive(native, plugin) = "fieldslib.cmxs"
+exists_if = "fieldslib.cma"
+# OASIS_STOP
+

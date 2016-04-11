@@ -1,0 +1,8 @@
+(library
+ ((name ppx_driver)
+  (public_release ((status (build_and_install_as ppx_driver))
+                   (kind ppx_library)))
+  (wrapped false)
+  (libraries (ppx_core ppx_optcomp))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((no_preprocessing All)))))

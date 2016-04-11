@@ -1,0 +1,13 @@
+# OASIS_START
+# DO NOT EDIT (digest: e9419d9fae212c6163779b78dfa3acef)
+version = "113.24.00"
+description =
+"A ppx rewriter that inlines reverse application operators `|>` and `|!`"
+requires = "ppx_core ppx_driver ppx_tools.metaquot"
+archive(byte) = "ppx_pipebang.cma"
+archive(byte, plugin) = "ppx_pipebang.cma"
+archive(native) = "ppx_pipebang.cmxa"
+archive(native, plugin) = "ppx_pipebang.cmxs"
+exists_if = "ppx_pipebang.cma"
+# OASIS_STOP
+

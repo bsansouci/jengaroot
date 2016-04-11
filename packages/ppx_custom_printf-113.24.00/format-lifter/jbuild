@@ -1,0 +1,13 @@
+(library
+ ((name ppx_format_lifter)
+  (public_release ((status (build_and_install_as ppx_custom_printf.format-lifter))))
+  (wrapped false)
+  (libraries ())
+  (extra_disabled_warnings (17 27))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((no_preprocessing All)))))
+
+(rule
+ ((targets (ppx_format_lifter.ml))
+  (deps (${ppx_tools}/syntax/genlifter.exe))
+  (action "${ppx_tools}/syntax/genlifter.exe Pervasives.format6 > ${@}")))

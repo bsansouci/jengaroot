@@ -1,0 +1,1 @@
+named_intf std_internal type_equal typename

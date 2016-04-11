@@ -1,0 +1,7 @@
+(library (
+  (name typerep_lib)
+  (public_release ((status (build_and_install_as typerep))))
+  ;; Do not put core in libraries, core depends on this library.  Do not
+  ;; put anything actually, this library should remain standalone.
+  (preprocess ((no_preprocessing All)))
+))

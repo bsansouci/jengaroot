@@ -1,0 +1,1 @@
+named_intf type_equal

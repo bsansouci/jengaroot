@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: 68a23f35f07c30142a508a96780c9238)
+version = "113.24.00"
+description = "Part of Jane Street's Core library"
+archive(byte) = "variantslib.cma"
+archive(byte, plugin) = "variantslib.cma"
+archive(native) = "variantslib.cmxa"
+archive(native, plugin) = "variantslib.cmxs"
+exists_if = "variantslib.cma"
+# OASIS_STOP
+

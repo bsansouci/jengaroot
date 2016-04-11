@@ -1,0 +1,8 @@
+(library
+ ((name ppx_variants_conv)
+  (public_release ((status (build_and_install_as ppx_variants_conv))
+                   (kind ppx_type_conv_plugin)))
+  (wrapped false)
+  (libraries (ppx_core ppx_driver ppx_type_conv))
+  (ocaml_includes (+compiler-libs))
+  (preprocess ((metaquot All)))))

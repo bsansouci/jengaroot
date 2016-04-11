@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: dfcea0914c1b759524e187491daf07d2)
+version = "113.24.01"
+description = "Generation of bin_prot readers and writers from types"
+requires = "ppx_core ppx_tools.metaquot ppx_type_conv"
+archive(byte) = "ppx_bin_prot.cma"
+archive(byte, plugin) = "ppx_bin_prot.cma"
+archive(native) = "ppx_bin_prot.cmxa"
+archive(native, plugin) = "ppx_bin_prot.cmxs"
+exists_if = "ppx_bin_prot.cma"
+# OASIS_STOP
+

@@ -1,0 +1,1 @@
+type_equal typename variant_and_record_intf
