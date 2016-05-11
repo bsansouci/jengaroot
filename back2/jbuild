@@ -1,0 +1,4 @@
+(executables
+ ((names (cathy))
+  (libraries (bookshop test))))
+

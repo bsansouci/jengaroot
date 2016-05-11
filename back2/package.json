@@ -1,0 +1,26 @@
+{
+  "name": "cathy",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bookshop": "0.0.2",
+    "chenloug": "0.0.3",
+  },
+  "devDependencies": {},
+  "random": 0,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenglou/buckle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chenglou/buckle/issues"
+  },
+  "homepage": "https://github.com/chenglou/buckle#readme",
+  "description": ""
+}
+
