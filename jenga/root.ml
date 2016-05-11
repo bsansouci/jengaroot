@@ -71,6 +71,13 @@ let ppx_relative = relative ~dir:ppx_dir
 
 (* THE control for whether prefixing is used in bin-dirs *)
 
+let toSourceDependency p =
+  let arr = String.split (Path.to_string p) ~on:'/' in
+  match arr with
+  | [x]::rest with x = "_build" -> relative ~dir:Path.the_root (String.concat ~sep:"/" rest)
+  | _ -> assert(false); p
+let toSourceDependencyString ~dir s = Path.reach_from ~dir (relative ~dir:(toSourceDependency dir) s)
+
 let wrapped_bindirs = false
 
 let remove_dups_preserve_order xs =
@@ -1923,7 +1930,7 @@ let static_archive_c ~dir ~o_names ~target =
   simple_rule ~deps ~targets:[relative ~dir target]
     ~action:(Bash.action ~dir [
       bash1 "rm" ["-f"; target];
-      bash1 "ar" (["Drc"; target] @ o_files);
+      bash1 "ar" (["rc"; target] @ o_files);
       bash1 "ranlib" [target];
     ])
 

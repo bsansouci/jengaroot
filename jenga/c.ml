@@ -196,7 +196,7 @@ let get_system_include_dirs =
   let f flavor =
     run_action_now_stdout (
       bashf ~dir:Path.the_root
-        !"true | cpp -x %{quote} -Wp,-v 2>&1 | \
+        !"true | cpp -x%{quote} -Wp,-v 2>&1 | \
           sed -E -e '1,/^#include <\\.\\.\\.> search starts here/d' | \
           sed -E -e '/End of search list/,$d'"
         (Flavor.language flavor))
