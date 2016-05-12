@@ -74,9 +74,18 @@ let ppx_relative = relative ~dir:ppx_dir
 let toSourceDependency p =
   let arr = String.split (Path.to_string p) ~on:'/' in
   match arr with
-  | [x]::rest with x = "_build" -> relative ~dir:Path.the_root (String.concat ~sep:"/" rest)
-  | _ -> assert(false); p
+  | x::rest when x = "_build" -> relative ~dir:Path.the_root (String.concat ~sep:"/" rest)
+  | _ -> assert(false)
+
 let toSourceDependencyString ~dir s = Path.reach_from ~dir (relative ~dir:(toSourceDependency dir) s)
+
+let _ = toSourceDependencyString
+
+let toBuildArtifact p = relative ~dir:(relative ~dir:Path.the_root "_build") (Path.to_string p)
+
+let toBuildArtifactString ~dir s = Path.reach_from ~dir (relative ~dir:(toBuildArtifact dir) s)
+
+let _ = toBuildArtifactString
 
 let wrapped_bindirs = false
 
@@ -862,6 +871,8 @@ end = struct
 
 end
 
+let _ = Libmap.fold
+
 (*----------------------------------------------------------------------
  Use types to capture different varieties of module names
 ----------------------------------------------------------------------*)
@@ -1075,7 +1086,7 @@ let renaming_rules ~dir ~libname ~modules =
  liblinks
 ----------------------------------------------------------------------*)
 
-let liblinks_dirname = ".liblinks"
+let liblinks_dirname = "node_modules"
 
 let liblinks_dir = root_relative liblinks_dirname
 
@@ -1240,7 +1251,7 @@ end = struct
       ]
 
   let submodule_names_even_if_packed ~lib libmap =
-    let remote_dir = Libmap.look_exn libmap lib in
+    let remote_dir = toBuildArtifact (Libmap.look_exn libmap lib) in
     Lib_modules.load ~dir:remote_dir ~libname:lib
 
   let submodule_names ~lib libmap =
@@ -1282,7 +1293,7 @@ end = struct
 
   let rules ~dir libmap =
     let lib = libname_from_liblink_path ~dir in
-    let remote_dir = Libmap.look_exn libmap lib in
+    let remote_dir = toBuildArtifact (Libmap.look_exn libmap lib) in
     let remote_stub_names_file = stub_names_file ~dir:remote_dir ~libname:lib in
     file_words remote_stub_names_file *>>= fun stub_names ->
     submodule_names_even_if_packed ~lib libmap *>>| fun modules ->
@@ -1339,6 +1350,7 @@ end = struct
         ]
       else []
     in
+    let _ = submodule_alias_rules in
     let default_rule =
         (* Setup a .DEFAULT alias in the lib-links directory, to indirect to the
            .lib_artifacts alias in the directory where the library code is actually found.
@@ -1419,7 +1431,7 @@ end
 
 let libdeps_for libmap names =
   Dep.List.concat_map names ~f:(fun name ->
-    let path = LN.suffixed ~dir:(Libmap.look_exn libmap name) name ".libdeps" in
+    let path = toBuildArtifact (LN.suffixed ~dir:(Libmap.look_exn libmap name) name ".libdeps") in
     LN.file_words path *>>| fun libs ->
     libs @ [ name ]
   )
@@ -1511,7 +1523,8 @@ let gen_transitive_deps : (
 let libs_transitive_closure libs =
   let libdeps_files =
     List.map libs ~f:(fun lib ->
-      LL.liblink_refname ~lib ~name:(LN.to_string lib ^ ".libdeps"))
+      let a = LL.liblink_refname ~lib ~name:(LN.to_string lib ^ ".libdeps") in
+      a)
   in
   Dep.List.concat_map libdeps_files ~f:LN.file_words
   *>>| fun additional_libs ->
@@ -1957,10 +1970,10 @@ let ocamllex_rule ~dir name =
   let ml = suf ".ml" in
   let mll = suf ".mll" in
   simple_rule
-    ~deps:[Dep.path mll]
+    ~deps:[Dep.path (toSourceDependency mll)]
     ~targets:[ml]
     ~action:(
-      Action.process ~dir ocamllex_path ["-q"; basename mll]
+      Action.process ~dir ocamllex_path ["-q"; toSourceDependencyString ~dir (basename mll)]
     )
 
 let ocamlyacc_rule ~dir name =
@@ -1969,10 +1982,10 @@ let ocamlyacc_rule ~dir name =
   let mli = suf ".mli" in
   let mly = suf ".mly" in
   simple_rule
-    ~deps:[Dep.path mly]
+    ~deps:[Dep.path (toSourceDependency mly)]
     ~targets:[ml;mli]
     ~action:(
-      Action.process ~dir ocamlyacc_path ["-q"; basename mly]
+      Action.process ~dir ocamlyacc_path ["-q"; toSourceDependencyString ~dir (basename mly)]
     )
 
 (*----------------------------------------------------------------------
@@ -2008,7 +2021,7 @@ end
 ----------------------------------------------------------------------*)
 
 let pa_jane = List.map ~f:PP.of_string [
-  "pa_type_conv";
+  (* "pa_type_conv";
   "pa_sexp_conv";
   "pa_bin_prot";
   "pa_fields_conv";
@@ -2026,7 +2039,7 @@ let pa_jane = List.map ~f:PP.of_string [
   "ppx_sexp_message";
   "pa_ounit";
   "pa_bench";
-  "ppx_expect";
+  "ppx_expect"; *)
 ]
 
 let pa_sexp_conv = List.map ~f:PP.of_string [
@@ -2704,13 +2717,14 @@ let gen_dfile kind ~disallowed_module_dep mc ~name =
   let via_suffix = get_pp_via_suffix ~mc in
   let suf = ml_kind_to_suf kind in
   let dsuf = suf ^ ".d" in
-  let source = BN.suffixed ~dir name (suf ^ via_suffix) in
+  let source = toSourceDependency (BN.suffixed ~dir name (suf ^ via_suffix)) in
   let dfile = BN.suffixed ~dir name dsuf in
+  let dfileString = toSourceDependencyString ~dir (basename source) in
   let targets = [dfile] in
   let action =
     let prog = ocamldep_path in
     let args =
-      ["-modules"] @ pp_args @ [ml_kind_to_flag kind] @ [basename source]
+      ["-modules"] @ pp_args @ [ml_kind_to_flag kind] @ [dfileString]
     in
     Action.process ~dir prog args
   in
@@ -2728,7 +2742,7 @@ let gen_dfile kind ~disallowed_module_dep mc ~name =
      in
      let potential_dependencies =
        output
-       |> parse_ocamldep_output_exn ~filename:(basename source)
+       |> parse_ocamldep_output_exn ~filename:dfileString
        |> List.sort ~cmp:String.compare
        (* can depend on both a.ml and A.ml, depending on which one exists *)
        |> List.concat_map ~f:(fun x ->
@@ -2798,7 +2812,7 @@ let compile_mli mc ~name =
   let prefix_args = prefix_or_pack_args ~wrapped ~libname ~name in
   let prefixed_name = PN.of_barename ~wrapped ~libname name in
   let flags = ocamlflags @ ocamlcflags in
-  let mli = BN.suffixed ~dir name (".mli" ^ via_suffix) in
+  let mli = toSourceDependency (BN.suffixed ~dir name (".mli" ^ via_suffix)) in
   let cmi = PN.suffixed ~dir prefixed_name ".cmi" in
   let targets =
     List.concat
@@ -2833,7 +2847,7 @@ let compile_mli mc ~name =
         (if using_no_alias_deps then ["-no-alias-deps"] else []);
         open_renaming_args;
         ["-o"; basename cmi];
-        [ "-c"; "-intf"; basename mli]
+        [ "-c"; "-intf"; toSourceDependencyString ~dir (basename mli)]
       ])
   )
 
@@ -2850,7 +2864,7 @@ let native_compile_ml mc ~name =
   let {DC. ocamlflags; ocamloptflags; _} = dc in
   let prefix_args = prefix_or_pack_args ~wrapped ~libname ~name in
   let prefixed_name = PN.of_barename ~wrapped ~libname name in
-  let ml = BN.suffixed ~dir name (".ml" ^ via_suffix) in
+  let ml = toSourceDependency (BN.suffixed ~dir name (".ml" ^ via_suffix)) in
   let o = PN.suffixed ~dir prefixed_name ".o" in
   let cmx = PN.suffixed ~dir prefixed_name ".cmx" in
   let cmi = PN.suffixed ~dir prefixed_name ".cmi" in
@@ -2892,7 +2906,7 @@ let native_compile_ml mc ~name =
         (if using_no_alias_deps then ["-no-alias-deps"] else []);
         open_renaming_args;
         ["-o"; basename cmx];
-        ["-c"; "-impl"; basename ml];
+        ["-c"; "-impl"; toSourceDependencyString ~dir (basename ml)];
       ])
   )
 
@@ -2905,7 +2919,7 @@ let byte_compile_ml mc ~name =
   let via_suffix = get_pp_via_suffix ~mc in
   let {DC. ocamlflags; ocamlcflags; _} = dc in
   let ocamlflags = List.filter ocamlflags ~f:(function "-bin-annot" -> false | _ -> true) in
-  let ml = BN.suffixed ~dir name (".ml" ^ via_suffix) in
+  let ml = toSourceDependency (BN.suffixed ~dir name (".ml" ^ via_suffix)) in
   let prefixed_name = PN.of_barename ~wrapped ~libname name in
   let cmi = PN.suffixed ~dir prefixed_name ".cmi" in
   let cmo = PN.suffixed ~dir prefixed_name ".cmo" in
@@ -2938,7 +2952,7 @@ let byte_compile_ml mc ~name =
         read_or_create_cmi `Read (".ml" ^ via_suffix);
         (if using_no_alias_deps then ["-no-alias-deps"] else []);
         open_renaming_args;
-        ["-c"; "-impl"; basename ml];
+        ["-c"; "-impl"; toSourceDependencyString ~dir (basename ml)];
       ])
   )
 
@@ -2950,7 +2964,7 @@ let infer_mli_auto mc ~name =
   let via_suffix = get_pp_via_suffix ~mc in
   let {DC. ocamlflags; _} = dc in
   let prefix_args = prefix_or_pack_args ~wrapped ~libname ~name in
-  let ml = BN.suffixed ~dir name (".ml" ^ via_suffix) in
+  let ml = toSourceDependency (BN.suffixed ~dir name (".ml" ^ via_suffix)) in
   let mli_auto = BN.suffixed ~dir name ".mli.auto" in
   Rule.create ~targets:[mli_auto] (
     get_inferred_1step_deps ~dir ~libname *>>= fun libs ->
@@ -2969,7 +2983,7 @@ let infer_mli_auto mc ~name =
         prefix_args;
         (if using_no_alias_deps then ["-no-alias-deps"] else []);
         open_renaming_args;
-        [ "-c"; "-impl"; basename ml];
+        [ "-c"; "-impl"; toSourceDependencyString ~dir (basename ml)];
       ])
         ~target:(basename mli_auto);
     ]
@@ -3021,7 +3035,7 @@ let setup_ml_compile_rules
     match exists_ml with
     | false ->
       if exists_mli
-      then failposf ~pos:(dummy_position (BN.suffixed ~dir name ".mli"))
+      then failposf ~pos:(dummy_position (toSourceDependency (BN.suffixed ~dir name ".mli")))
              "this .mli doesn't have a corresponding .ml" ()
       else failposf ~pos:(dummy_position (User_or_gen_config.source_file ~dir))
              !"there is neither .ml nor .mli for module %{BN}" name ()
@@ -3618,12 +3632,12 @@ module UTop = struct
     "ocamlopttoplevel";
   ]
 
-  let ppx () =
+  (* let ppx () =
     let path = PPXset.create [PP.of_string "JANE"] |> PPXset.exe_path in
     assert
       (* this path is hard-coded in [lib/js_utop/src/main.ml]: *)
       (root_relative ".ppx/JANE/ppx.exe" = path);
-    path
+    path *)
 
 end
 
@@ -3668,7 +3682,7 @@ let utop_rules dc ~dir ~libname =
         Dep.path hg_version;
         Dep.path build_info;
         Dep.path utopdeps;
-        Dep.path (UTop.ppx ());
+        (* Dep.path (UTop.ppx ()); *)
         Dep.all_unit (LL.liblink_deps ~libs ~suffixes:[".cmi"]);
       ] *>>| fun () ->
       let standard_cmxas = List.map UTop.packs ~f:(fun name -> name ^ ".cmxa") in
@@ -3716,14 +3730,14 @@ let utop_rules dc ~dir ~libname =
 ----------------------------------------------------------------------*)
 let fgrep_rule ~dir ~filename ~macros ~impls =
   let target = relative ~dir filename in
-  let sources = List.map impls ~f:(fun impl -> BN.suffixed ~dir impl ".ml") in
+  let sources = List.map impls ~f:(fun impl -> toSourceDependency (BN.suffixed ~dir impl ".ml")) in
   simple_rule
     ~targets:[target]
     ~deps:(List.map sources ~f:Dep.path)
     ~action:(
       bashf ~dir !"\
  (cat %s | fgrep -w -f <(%s) || true) > %{quote}"
-        (concat_quoted (List.map ~f:basename sources))
+        (concat_quoted (List.map ~f:(Path.reach_from ~dir) sources))
         (String.concat ~sep:"; " (List.map macros ~f:(sprintf !"echo %{quote}")))
         (basename target)
     )
@@ -3884,9 +3898,9 @@ let link (module Mode : Ocaml_mode.S) (dc : DC.t) ~dir
   in
 
   let exe_rules =
-    let target = suffixed ~dir exe Mode.exe in
+    let target = (suffixed ~dir exe Mode.exe) in
     maybe_ldd_check_rules ~target (fun target ->
-      let exe_maybe_tmp = basename target in
+      let exe_maybe_tmp = (basename target) in
       link_libdeps_of
       *>>= fun link_libdeps_of ->
       get_libs_for_exe ~link_libdeps_of ~libs_for_plugins ~force_link
@@ -5164,6 +5178,8 @@ let setup_ppx_cache ~dir =
     generate_ppx_exe_rules libmap ~dir
   )
 
+let _ = setup_ppx_cache
+
 (*----------------------------------------------------------------------
   autogen: determine from rule targets (& ocamllex/yacc)
 ----------------------------------------------------------------------*)
@@ -5212,13 +5228,14 @@ let infer_autogen jbuilds =
 let create_directory_context ~dir jbuilds =
   (* These dependencies could/should be run in parallel *)
   Centos.ocamllibflags *>>= fun ocamllibflags ->
-  Dep.glob_listing (glob_ml ~dir) *>>= fun ml_paths ->
-  Dep.glob_listing (glob_mli ~dir) *>>= fun mli_paths ->
+  let srcDir = toSourceDependency dir in
+  Dep.glob_listing (glob_ml ~dir:srcDir) *>>= fun ml_paths ->
+  Dep.glob_listing (glob_mli ~dir:srcDir) *>>= fun mli_paths ->
   Libmap_sexp.get *>>= fun libmap ->
   List.iter jbuilds ~f:(fun jbuild ->
     List.iter (ocaml_libraries jbuild) ~f:(fun lib ->
       if not (Libmap.exists libmap lib) then begin
-        let pos = dummy_position (User_or_gen_config.source_file ~dir) in
+        let pos = dummy_position (User_or_gen_config.source_file ~dir:srcDir) in
         failposf ~pos !"unknown library %{LN}" lib ()
       end));
   let merlinflags =
@@ -5300,7 +5317,7 @@ let create_directory_context ~dir jbuilds =
 
 let setup_main ~dir =
   Scheme.rules_dep (
-    User_or_gen_config.load ~dir *>>= fun jbuilds ->
+    User_or_gen_config.load ~dir:(toSourceDependency dir) *>>= fun jbuilds ->
     create_directory_context ~dir jbuilds *>>| fun dc ->
     directory_rules dc ~dir jbuilds
   )
@@ -5450,14 +5467,27 @@ let scheme ~dir =
           else if dir = liblinks_dir then
             setup_liblinks_dir ~dir
             (* Special scheme for the ppx_cache directory *)
-          else if dirname dir = ppx_cache_dir then
-            setup_ppx_cache ~dir
+          (* else if dirname dir = ppx_cache_dir then
+            setup_ppx_cache ~dir *)
             (* Scheme for all other directories *)
-          else
-            Scheme.all [
-              common_rules_except_for_liblinks;
-              setup_main ~dir;
-            ]
+          else begin
+            match (String.split ~on:'/' (Path.to_string dir)) with
+            | [] -> assert false
+            | x::_ when x = "_build" -> begin
+              Scheme.all [
+                common_rules_except_for_liblinks;
+                setup_main ~dir;
+              ]
+              end
+            | x::_ when x = "packages" -> Scheme.no_rules
+            | _::_ ->
+              Scheme.all [
+                Scheme.rules [
+                  Rule.alias (Alias.default ~dir)
+                    [Dep.alias (Alias.default ~dir:(toBuildArtifact dir))]
+                ]
+              ]
+          end
       )
   end
 
