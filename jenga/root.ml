@@ -2355,6 +2355,7 @@ let get_pp_libs ~mc : LN.t list =
   let {MC. x_libs; pp_style; _} = mc in
   x_libs @ eval_preprocess_style_libs pp_style
 
+let _ = get_pp_libs
 (*----------------------------------------------------------------------
  pp deps
 ----------------------------------------------------------------------*)
@@ -2398,6 +2399,7 @@ let get_pp_deps ~mc : unit Dep.t list =
     | PP (pps, _flags, Translate_from_camlp4) -> ppx_deps_without_user_deps pps
     end
 
+let _ = get_pp_deps
 (*----------------------------------------------------------------------
   pp com
 ----------------------------------------------------------------------*)
@@ -2506,6 +2508,7 @@ let get_pp_com_args ~(kind:ml_kind) ~mc ~name : string list =
       in
       ["-pp"; concat_quoted (prog :: args)]
 
+let _ = get_pp_com_args
 (*----------------------------------------------------------------------
  pp via_suffix
 ----------------------------------------------------------------------*)
@@ -2712,8 +2715,8 @@ let gen_dfile kind ~disallowed_module_dep mc ~name =
         (BN.to_string name) s ()
   in
   let {MC. dc; dir; _ } = mc in
-  let pp_deps = get_pp_deps ~mc in
-  let pp_args = get_pp_com_args ~kind ~mc ~name in
+  (* let pp_deps = get_pp_deps ~mc in *)
+  (* let pp_args = get_pp_com_args ~kind ~mc ~name in *)
   let via_suffix = get_pp_via_suffix ~mc in
   let suf = ml_kind_to_suf kind in
   let dsuf = suf ^ ".d" in
@@ -2724,13 +2727,13 @@ let gen_dfile kind ~disallowed_module_dep mc ~name =
   let action =
     let prog = ocamldep_path in
     let args =
-      ["-modules"] @ pp_args @ [ml_kind_to_flag kind] @ [dfileString]
+      ["-modules"] (* @ pp_args *) @ [ml_kind_to_flag kind] @ [dfileString]
     in
     Action.process ~dir prog args
   in
   Rule.create ~targets (
      Dep.action_stdout
-       (Dep.all_unit (Dep.path source :: pp_deps) *>>| fun () -> action)
+       (Dep.all_unit (Dep.path source (* :: pp_deps *) :: []) *>>| fun () -> action)
      *>>| fun output ->
      let is_actual_dep =
        let self = name in
@@ -2803,10 +2806,10 @@ let conditional = function
 
 let compile_mli mc ~name =
   let {MC. dc; dir; libname; wrapped; _ } = mc in
-  let kind = MLI in
-  let pp_libs = get_pp_libs ~mc in
+  (* let kind = MLI in *)
+  (* let pp_libs = get_pp_libs ~mc in
   let pp_deps = get_pp_deps ~mc in
-  let pp_args = get_pp_com_args ~kind ~mc ~name in
+  let pp_args = get_pp_com_args ~kind ~mc ~name in *)
   let via_suffix = get_pp_via_suffix ~mc in
   let {DC. ocamlflags; ocamlcflags; _} = dc in
   let prefix_args = prefix_or_pack_args ~wrapped ~libname ~name in
@@ -2823,11 +2826,11 @@ let compile_mli mc ~name =
   in
   Rule.create ~targets (
     get_inferred_1step_deps ~dir ~libname *>>= fun libs ->
-    let libs = pp_libs @ libs in
+    (* let libs = pp_libs @ libs in *)
     let libdeps = LL.liblink_deps ~libs ~suffixes:[".cmi"] in
     let deps =
       [Dep.path mli; local_dependencies `mli Ocaml_mode.byte dc ~wrapped ~libname name]
-      @ pp_deps @ libdeps
+      (* @ pp_deps *) @ libdeps
     in
     let deps,open_renaming_args = open_renaming deps mc in
     Dep.all_unit deps *>>| fun () ->
@@ -2841,7 +2844,7 @@ let compile_mli mc ~name =
              by 4.01 yet.  So, we're leaving the warning off until a stock OCaml is
              released that supports [open!]. *)
         flags; ["-w"; "-33"];
-        pp_args;
+        (* pp_args; *)
         LL.liblink_includes ~dir ~libs;
         prefix_args;
         (if using_no_alias_deps then ["-no-alias-deps"] else []);
@@ -2856,10 +2859,10 @@ let remove_nodynlink =
 
 let native_compile_ml mc ~name =
   let {MC. dc; dir; libname; wrapped; exists_mli; must_be_sharable; _ } = mc in
-  let kind = ML in
-  let pp_libs = get_pp_libs ~mc in
+  (* let kind = ML in *)
+  (* let pp_libs = get_pp_libs ~mc in
   let pp_deps = get_pp_deps ~mc in
-  let pp_args = get_pp_com_args ~kind ~mc ~name in
+  let pp_args = get_pp_com_args ~kind ~mc ~name in *)
   let via_suffix = get_pp_via_suffix ~mc in
   let {DC. ocamlflags; ocamloptflags; _} = dc in
   let prefix_args = prefix_or_pack_args ~wrapped ~libname ~name in
@@ -2884,11 +2887,11 @@ let native_compile_ml mc ~name =
   in
   Rule.create ~targets (
     get_inferred_1step_deps ~dir ~libname *>>= fun libs ->
-    let libs = LN.remove_dups_preserve_order (pp_libs @ libs) in
+    (* let libs = LN.remove_dups_preserve_order (pp_libs @ libs) in *)
     let libdeps = LL.liblink_deps ~libs ~suffixes:cmi_maybe_cmx in
     let deps =
       [ Dep.path ml; local_dependencies `ml Ocaml_mode.native dc ~wrapped ~libname name ]
-      @ pp_deps
+      (* @ pp_deps *)
       @ libdeps
     in
     let deps = if exists_mli then deps @ [Dep.path cmi] else deps in
@@ -2899,7 +2902,7 @@ let native_compile_ml mc ~name =
       ocamlopt_path
       (List.concat [
         flags;
-        pp_args;
+        (* pp_args; *)
         LL.liblink_includes ~dir ~libs;
         prefix_args;
         read_or_create_cmi (if exists_mli then `Read else `Create) (".ml" ^ via_suffix);
@@ -2912,10 +2915,10 @@ let native_compile_ml mc ~name =
 
 let byte_compile_ml mc ~name =
   let {MC. dc; dir; libname; wrapped; _ } = mc in
-  let kind = ML in
-  let pp_libs = get_pp_libs ~mc in
+  (* let kind = ML in *)
+  (* let pp_libs = get_pp_libs ~mc in
   let pp_deps = get_pp_deps ~mc in
-  let pp_args = get_pp_com_args ~kind ~mc ~name in
+  let pp_args = get_pp_com_args ~kind ~mc ~name in *)
   let via_suffix = get_pp_via_suffix ~mc in
   let {DC. ocamlflags; ocamlcflags; _} = dc in
   let ocamlflags = List.filter ocamlflags ~f:(function "-bin-annot" -> false | _ -> true) in
@@ -2931,12 +2934,13 @@ let byte_compile_ml mc ~name =
   let targets = [ cmo ] in
   Rule.create ~targets (
     get_inferred_1step_deps ~dir ~libname *>>= fun libs ->
-    let libs = LN.remove_dups_preserve_order (pp_libs @ libs) in
+    (* let libs = LN.remove_dups_preserve_order (pp_libs @ libs) in *)
     let libdeps = LL.liblink_deps ~libs ~suffixes:[".cmi"] in
     let deps =
       [ Dep.path ml;
         local_dependencies `ml Ocaml_mode.byte dc ~wrapped ~libname name ]
-      @ pp_deps @ libdeps
+      (* @ pp_deps  *)
+      @ libdeps
     in
     let deps = deps @ [Dep.path cmi] in
     let deps,open_renaming_args = open_renaming deps mc in
@@ -2946,7 +2950,7 @@ let byte_compile_ml mc ~name =
       ocamlc_path
       (List.concat [
         ocamlflags; ocamlcflags;
-        pp_args;
+        (* pp_args; *)
         LL.liblink_includes ~dir ~libs;
         prefix_args;
         read_or_create_cmi `Read (".ml" ^ via_suffix);
@@ -2958,9 +2962,9 @@ let byte_compile_ml mc ~name =
 
 let infer_mli_auto mc ~name =
   let {MC. dc; dir; libname; wrapped; _ } = mc in
-  let kind = ML in
-  let pp_deps = get_pp_deps ~mc in
-  let pp_args = get_pp_com_args ~kind ~mc ~name in
+  (* let kind = ML in *)
+  (* let pp_deps = get_pp_deps ~mc in
+  let pp_args = get_pp_com_args ~kind ~mc ~name in *)
   let via_suffix = get_pp_via_suffix ~mc in
   let {DC. ocamlflags; _} = dc in
   let prefix_args = prefix_or_pack_args ~wrapped ~libname ~name in
@@ -2971,14 +2975,15 @@ let infer_mli_auto mc ~name =
     let libdeps = LL.liblink_deps ~libs ~suffixes:[".cmi"] in
     let deps =
       [Dep.path ml; local_dependencies `ml Ocaml_mode.byte dc ~wrapped ~libname name]
-      @ pp_deps @ libdeps in
+      (* @ pp_deps  *)
+      @ libdeps in
     let deps,open_renaming_args = open_renaming deps mc in
     Dep.all_unit deps *>>| fun () ->
     Bash.action ~dir [
       bash1 ocamlc_path (List.concat [
         ["-i"];
         ocamlflags;
-        pp_args;
+        (* pp_args; *)
         LL.liblink_includes ~dir ~libs;
         prefix_args;
         (if using_no_alias_deps then ["-no-alias-deps"] else []);
