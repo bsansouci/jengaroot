@@ -1,1 +1,0 @@
-src_pos type_with_layout

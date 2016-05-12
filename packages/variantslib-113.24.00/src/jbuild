@@ -1,4 +1,0 @@
-(library
- ((name variantslib)
-  (public_release ((status (build_and_install_as variantslib))))
-  (preprocess (((pps ()) All)))))

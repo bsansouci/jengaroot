@@ -1,1 +1,0 @@
-std_internal type_equal type_generic_intf typename typerepable variant_and_record_intf

@@ -1,8 +1,0 @@
-(library
- ((name ppx_bin_prot)
-  (public_release ((status (build_and_install_as ppx_bin_prot))
-                   (kind ppx_type_conv_plugin)))
-  (wrapped false)
-  (libraries (ppx_core ppx_type_conv))
-  (ocaml_includes (+compiler-libs))
-  (preprocess ((metaquot All)))))

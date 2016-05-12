@@ -1,1 +1,0 @@
-named_intf typerepable

@@ -1,1 +1,0 @@
-std_internal typename

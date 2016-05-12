@@ -1,1 +1,0 @@
-make_typename named_intf std_internal typerepable

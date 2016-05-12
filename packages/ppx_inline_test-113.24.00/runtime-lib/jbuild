@@ -1,5 +1,0 @@
-(library
- ((name ppx_inline_test_lib)
-  (public_release ((status (build_and_install_as ppx_inline_test.runtime-lib))))
-  (libraries ())
-  (preprocess ())))

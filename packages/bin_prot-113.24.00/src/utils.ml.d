@@ -1,1 +1,0 @@
-binable common nat0 read size type_class write

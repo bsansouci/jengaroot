@@ -1,6 +1,0 @@
-module No_direct_access_to_ppx_bench_lib = struct
-  module Ppx_bench_lib = No_such_module
-  module Ppx_bench_lib__Benchmark_accumulator = No_such_module
-end
-
-module Benchmark_accumulator = Ppx_bench_lib__Benchmark_accumulator

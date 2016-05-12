@@ -1,6 +1,0 @@
-module No_direct_access_to_variantslib = struct
-  module Variantslib = No_such_module
-  module Variantslib__Variant = No_such_module
-end
-
-module Variant = Variantslib__Variant

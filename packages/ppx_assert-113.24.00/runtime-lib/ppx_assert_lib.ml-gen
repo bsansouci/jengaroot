@@ -1,6 +1,0 @@
-module No_direct_access_to_ppx_assert_lib = struct
-  module Ppx_assert_lib = No_such_module
-  module Ppx_assert_lib__Runtime = No_such_module
-end
-
-module Runtime = Ppx_assert_lib__Runtime

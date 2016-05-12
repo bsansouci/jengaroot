@@ -1,6 +1,0 @@
-;; These modules are linked by jenga at the very end of all the inline tests runners.
-;; jenga assumes the existence of both runner.ml and summarize.ml, that they both do not
-;; depend on other ml files and that they are in the same executables item in this order.
-(executables
- ((names (runner summarize))
-  (libraries (ppx_inline_test_lib))))

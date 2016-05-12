@@ -1,5 +1,0 @@
-(library
-  ((name ppx_assert_lib)
-   (public_release ((status (build_and_install_as ppx_assert.runtime-lib))))
-   (libraries (sexplib))
-   (preprocess (((pps (SEXP_CONV)) All)))))

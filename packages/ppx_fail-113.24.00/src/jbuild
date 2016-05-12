@@ -1,8 +1,0 @@
-(library
- ((name ppx_fail)
-  (public_release ((status (build_and_install_as ppx_fail))
-                   (kind ppx_rewriter)))
-  (wrapped false)
-  (libraries (ppx_core ppx_driver ppx_here_expander))
-  (ocaml_includes (+compiler-libs))
-  (preprocess ((metaquot All)))))

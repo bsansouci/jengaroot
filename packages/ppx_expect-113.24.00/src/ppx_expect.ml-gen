@@ -1,8 +1,0 @@
-module No_direct_access_to_ppx_expect = struct
-  module Ppx_expect = No_such_module
-  module Ppx_expect__Expect_extension = No_such_module
-  module Ppx_expect__Main = No_such_module
-end
-
-module Expect_extension = Ppx_expect__Expect_extension
-module Main = Ppx_expect__Main

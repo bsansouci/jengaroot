@@ -1,6 +1,0 @@
-module No_direct_access_to_ppx_inline_test_lib = struct
-  module Ppx_inline_test_lib = No_such_module
-  module Ppx_inline_test_lib__Runtime = No_such_module
-end
-
-module Runtime = Ppx_inline_test_lib__Runtime
